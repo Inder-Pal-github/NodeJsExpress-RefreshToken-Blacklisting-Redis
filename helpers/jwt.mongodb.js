@@ -53,14 +53,13 @@ module.exports = {
           // reject(err); // don't reject error directly, because it is issue with backend not from user side.
         }
         /// storing the userId <--> token  inside redis to access it for other purposes.
-        await client.set(userId, token, "EX", "10", (err, reply) => {
+        let result = client.SET(userId, token, {"EX":60*60}, (err) => {
           if (err) {
             console.log(err.message, "signRefreshTokenError");
             reject(createError.InternalServerError());
-          } else {
-            resolve(token);
           }
         });
+        result.then((res)=>resolve(token));        
       });
     });
   },

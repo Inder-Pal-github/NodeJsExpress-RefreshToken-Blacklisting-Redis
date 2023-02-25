@@ -10,7 +10,6 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.get("/",verifyAccessToken, async (req, res) => {
   console.log(req.payload);
   res.send("API");
